@@ -1,0 +1,44 @@
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--horizontal-space);
+  align-items: center;
+  position: fixed;
+  top: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  z-index: 8;
+}
+
+.screen-header__title {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.screen-header__icons span {
+  margin-left: 25px;
+}
+
+.screen-header__notification--small-dot {
+  background-color: tomato;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  position: absolute;
+  right: 20px;
+  top: 25px;
+}
+
+@keyframes rotateCog {
+  from {
+    transform: none;
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+.screen-header__icons .fa-cog:hover {
+  animation: rotateCog 2s linear infinite;
+}
