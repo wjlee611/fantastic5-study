@@ -10,6 +10,7 @@ Study repository for Fantastic 5 Team
 그리고 풀-리퀘스트로 요청해보는 겁니다!
 
 - 웅: 어서오세요!
+- 모카: 안녕하세요 !
 
 ## 목적
 
