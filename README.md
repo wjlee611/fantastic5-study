@@ -11,6 +11,7 @@ Study repository for Fantastic 5 Team
 
 - 웅: 어서오세요!
 - 모카: 안녕하세요 !
+- 수 : 안녕하세용
 
 ## 목적
 
