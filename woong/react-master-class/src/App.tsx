@@ -1,5 +1,9 @@
-import { createGlobalStyle } from "styled-components";
-import ToDoList from "./components/ToDoList";
+import styled, { createGlobalStyle } from "styled-components";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useRecoilState } from "recoil";
+import { toDoState } from "./atoms";
+import Board from "./Components/Board";
+import Trashcan from "./Components/Trashcan";
 
 const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -58,7 +62,7 @@ table {
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor};
+  color: black;
 }
 a {
   text-decoration: none;
@@ -66,11 +70,78 @@ a {
 }
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 100vw;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Boards = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
+`;
+
 function App() {
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  const onDragEnd = (info: DropResult) => {
+    const { destination, source } = info;
+    if (!destination) return;
+    if (destination.droppableId === "trashcan") {
+      setToDos((prev) => {
+        const boardCopy = [...prev[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        return {
+          ...prev,
+          [source.droppableId]: boardCopy,
+        };
+      });
+    }
+    if (destination.droppableId === source.droppableId) {
+      // same board movement.
+      setToDos((prev) => {
+        const boardCopy = [...prev[source.droppableId]];
+        const [popTodo] = boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, popTodo); // method 1
+        return {
+          ...prev,
+          [source.droppableId]: boardCopy,
+        };
+      });
+    }
+    if (destination.droppableId !== source.droppableId) {
+      // cross board movement.
+      setToDos((prev) => {
+        const sourceBoardCopy = [...prev[source.droppableId]];
+        const taskObj = sourceBoardCopy[source.index];
+        const destinationBoardCopy = [...prev[destination.droppableId]];
+        sourceBoardCopy.splice(source.index, 1);
+        destinationBoardCopy.splice(destination?.index, 0, taskObj); // method 2
+        return {
+          ...prev,
+          [source.droppableId]: sourceBoardCopy,
+          [destination.droppableId]: destinationBoardCopy,
+        };
+      });
+    }
+  };
   return (
     <>
       <GlobalStyle />
-      <ToDoList />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Trashcan />
+        <Wrapper>
+          <Boards>
+            {Object.keys(toDos).map((boardId) => (
+              <Board key={boardId} boardId={boardId} toDos={toDos[boardId]} />
+            ))}
+          </Boards>
+        </Wrapper>
+      </DragDropContext>
     </>
   );
 }
