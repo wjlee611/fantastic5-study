@@ -43,3 +43,16 @@
   left: 6px;
   bottom: 18px;
 }
+
+.find__dot {
+  color: red;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  font-size: 40px;
+  left: 265px;
+  top: 3px;
+}
