@@ -1,6 +1,6 @@
 #chat-screen {
     background-color: #abc1d1;
-    height: 11000vh;
+    height: 100vh;
 }
 
 #chat-screen .alt-header, 
@@ -21,13 +21,25 @@
     z-index: 1;
 }
 
+@keyframes fadeIn {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+
 .main-chat {
-    margin-top: 120px;
+    margin-top: 180px;
     display: flex;
     flex-direction: column;
     font-size: 14px;
     /*왜 배경 줄어듦?*/
     align-items: center;
+    animation: fadeIn 0.8s linear;
 }
 
 .chat__timestamp {
@@ -111,6 +123,7 @@
     padding: 5px 25px;
     box-sizing: border-box;
     align-items: center;
+    transition: all 0.3x ease-in-out;
 }
 
 .reply .reply__column:first-child{
@@ -122,20 +135,67 @@
     position: relative;
 }
 
+.reply i {
+    opacity: 0.5;
+}
+
 .reply input {
-    height: 30px;
+    padding: 10px;
     width: 100%;
     border: var(--main-border);
     border-radius: 20px;
+    /*box-sizing: border-box;*/
+    transition: all 0.3s ease-in-out;
 }
 
-.reply__column:last-child i,
+/* > 바로 하위에 있는 i만 선택 */
+.reply__column:last-child > i,
 .reply__column:last-child button {
     position: absolute;
-    right: 0;
+    right: -3px;
+    top: 2px;
+}
+
+.reply__column:last-child > i {
+    right: 40px;
     top: 10px;
 }
 
-.reply__column:last-child i {
-    right: 15px;
+.reply__column button {
+    background-color: var(--yellow);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;   
+}
+
+.reply__column button i {
+    opacity: 1;
+}
+
+.reply__column button:focus,
+.reply__column button:active {
+    outline: none;
+}
+
+.reply .reply__column:first-child,
+.reply .fa-smile-wink,
+.reply .button {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/*내부에 있는게 focus되면*/
+.reply:focus-within .reply__column:first-child,
+.reply:focus-within .fa-smile-wink,
+.reply:focus-within button {
+    opacity: 0;
+}
+
+input:focus {
+    width: 95vw;
+    transform: translateX(-10%) translateY(-80px);
+}
+
+.reply:focus-within {
+    transform: translateY(80px);
 }
