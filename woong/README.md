@@ -27,3 +27,7 @@ useState, useEffect, 기본적인 리액트 후크를 연습해 볼 수 있었�
 한층더 고급진 React를 배울 수 있었음.\
 Typescript 기반 리액트 프로젝트!\
 더욱 많은 훅과 기술들 사용.
+
+## machine-learning
+
+Sung Kim 유튜브의 강의를 바탕으로 머신러닝 기초 공부.
